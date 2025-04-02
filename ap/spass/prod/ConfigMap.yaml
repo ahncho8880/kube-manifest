@@ -1,0 +1,68 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: api-sample
+  namespace: mossp
+  labels:
+    app.kubernetes.io/name: api-sample
+    spring.cloud.kubernetes.config: "true"
+data:
+  application.yaml: |-
+    spring:
+      application:
+        name: api-sample
+      web:
+        locale: ko_KR
+        locale-resolver: fixed
+      config:
+        activate:
+          on-profile: prod
+        use-legacy-processing: true
+      mvc:
+        pathmatch:
+          matching-strategy: ant_path_matcher
+      output:
+        ansi:
+          enabled: ALWAYS
+    Globals:
+      LocalIp: aa.vpc-cdb-kr.gov-ntruss.com
+      DbType: mysql
+      pageUnit: 10
+      pageSize: 10
+      posblAtchFileSize: 5242880
+      fileStorePath: ./files
+      addedOptions: false
+      fileUpload:
+        Extensions: .gif.jpg.jpeg.png.xls.xlsx
+      Allow:
+        Origin: http://localhost:3000
+    server:
+      servlet:
+        context-path: /
+        session:
+          timeout: 3600
+      port: 8080
+    logging:
+      level:
+        root: info
+        org.springframework: info
+        io.opentelemetry.exporter: info
+        jdbc:
+          audit: OFF
+          resultset: OFF
+          resultsettable: INFO
+          sqlonly: OFF
+          sqltiming: INFO
+          connection : OFF
+      exception-conversion-word: "%replace(%xException){'\\n','\u2028'}%nopex"        
+      pattern:
+        console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr([${spring.application.name},%X{trace_id},%X{span_id}]) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m %n%wEx"
+
+    # Telemetry
+
+
+    feign:
+      client:
+        config:
+          default:
+            loggerLevel: FULL

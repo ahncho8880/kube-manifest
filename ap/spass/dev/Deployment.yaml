@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 
+  namespace: mossp
+  labels:
+    app.kubernetes.io/name: spass
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: spass
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: spass
+    spec:
+      serviceAccountName: spass
+      containers:
+        - name: spass
+          image: mossp-dev-container-registry.ncr.gov-ntruss.com/spass:83
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+          resources:
+            requests:
+              cpu: 100m
+              memory: 1000Mi
+            limits:
+              cpu: 1000m
+              memory: 2000Mi
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: actuator
+              containerPort: 8081
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: actuator
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: actuator
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: actuator
+            periodSeconds: 30
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          volumeMounts:
+            - mountPath: /config
+              name: spring-config
+      nodeSelector:
+        role: mossp
+      volumes:
+        - name: spring-config
+          configMap:
+            name: spass
+      imagePullSecrets:
+        - name: cr-credential

@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: api-sample
+  namespace: mossp
+  labels:
+    app.kubernetes.io/name: api-sample
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: api-sample
+subjects:
+  - kind: ServiceAccount
+    name: api-sample
+    namespace: mossp

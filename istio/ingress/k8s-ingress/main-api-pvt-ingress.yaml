@@ -1,0 +1,115 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: api-ingress
+  namespace: mossp
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/success-codes: '404'
+  labels:
+    app: api-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /member/*
+            backend:
+              serviceName: api-member
+              servicePort: 8091
+    - http:
+        paths:
+          - path: /fileupload/*
+            backend:
+              serviceName: api-fileupload
+              servicePort: 8091
+    - http:
+        paths:
+          - path: /main/*
+            backend:
+              serviceName: api-main
+              servicePort: 8093
+    - http:
+        paths:
+          - path: /welfare/*
+            backend:
+              serviceName: api-welfare
+              servicePort: 8093
+    - http:
+        paths:
+          - path: /elearning/*
+            backend:
+              serviceName: api-elearning
+              servicePort: 8094
+    - http:
+        paths:
+          - path: /elearning_admin/*
+            backend:
+              serviceName: api-elearnining_admin
+              servicePort: 8094
+    - http:
+        paths:
+          - path: /admin/*
+            backend:
+              serviceName: api-admin
+              servicePort: 8095
+    - http:
+        paths:
+          - path: /selfdevelop/*
+            backend:
+              serviceName: api-selfdevelop
+              servicePort: 8095
+    - http:
+        paths:
+          - path: /community/*
+            backend:
+              serviceName: api-community
+              servicePort: 8096
+    - http:
+        paths:
+          - path: /transfer/*
+            backend:
+              serviceName: api-transfer
+              servicePort: 8096
+    - http:
+        paths:
+          - path: /statistics/*
+            backend:
+              serviceName: api-statistics
+              servicePort: 8097
+    - http:
+        paths:
+          - path: /affiliate/*
+            backend:
+              serviceName: api-affiliate
+              servicePort: 8097
+    - http:
+        paths:
+          - path: /alarm/*
+            backend:
+              serviceName: api-alarm
+              servicePort: 8090
+    - http:
+        paths:
+          - path: /logging/*
+            backend:
+              serviceName: api-logging
+              servicePort: 8090
+    - http:
+        paths:
+          - path: /medicalbilling/*
+            backend:
+              serviceName: api-medicalbilling
+              servicePort: 8099
+    - http:
+        paths:
+          - path: /portallink/*
+            backend:
+              serviceName: api-portallink
+              servicePort: 8099
+    - http:
+        paths:
+          - path: /soldieranalysis/*
+            backend:
+              serviceName: api-soldieranalysis
+              servicePort: 8080

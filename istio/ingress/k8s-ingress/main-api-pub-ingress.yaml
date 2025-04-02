@@ -1,0 +1,72 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: api-pub-ingress
+  namespace: mossp
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    #alb.ingress.kubernetes.io/subnets: subnet-a,subnet-b
+    alb.ingress.kubernetes.io/success-codes: '404'
+  labels:
+    app: api-pub-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /order/v1/odr/sweettracker/invTrakResu
+            backend:
+              serviceName: api-order-service1
+              servicePort: 8094
+          - path: /order/v1/odr/sweettracker/invTrakResu
+            backend:
+              serviceName: api-order-service2
+              servicePort: 8094
+          - path: /order/v1/odr/inicis/vbankSuccess
+            backend:
+              serviceName: api-order-service1
+              servicePort: 8094
+          - path: /order/v1/odr/inicis/vbankSuccess
+            backend:
+              serviceName: api-order-service2
+              servicePort: 8094
+          - path: /front/v1/*Disp/main*
+            backend:
+              serviceName: api-front-service1
+              servicePort: 8097
+          - path: /front/v1/*Disp/main*
+            backend:
+              serviceName: api-front-service2
+              servicePort: 8097
+          - path: /front/v1/intro/introApps
+            backend:
+              serviceName: api-front-service1
+              servicePort: 8097
+          - path: /front/v1/intro/introApps
+            backend:
+              serviceName: api-front-service2
+              servicePort: 8097
+          - path: /system/v1/indvAuda/indvAudaSucc*
+            backend:
+              serviceName: api-system-service1
+              servicePort: 8091
+          - path: /system/v1/indvAuda/indvAudaSucc*
+            backend:
+              serviceName: api-system-service2
+              servicePort: 8091
+          - path: /system/v1/indvAuda/indvAudaFail*
+            backend:
+              serviceName: api-system-service1
+              servicePort: 8091
+          - path: /system/v1/indvAuda/indvAudaFail*
+            backend:
+              serviceName: api-system-service2
+              servicePort: 8091
+          - path: /product/v1/goos/prfGoos*
+            backend:
+              serviceName: api-product-service1
+              servicePort: 8093
+          - path: /product/v1/goos/prfGoos*
+            backend:
+              serviceName: api-product-service2
+              servicePort: 8093              

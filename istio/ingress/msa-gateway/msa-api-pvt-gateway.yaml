@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: api-pvt-gateway
+  namespace: mossp
+spec:
+  selector:
+    istio: pvt-ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: api-pvt-virtual
+  namespace: mossp
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - api-pvt-gateway
+  http:
+  - match:
+    - uri:
+        exact: /member
+    - uri:
+        prefix: /member/v1
+    route:
+    - destination:
+        host: api-member-service1
+        port:
+          number: 8092
