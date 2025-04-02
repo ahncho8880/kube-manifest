@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: spass-config
-  namespace: spass
+  namespace: default
   labels:
     app.kubernetes.io/name: api-spass
     spring.cloud.kubernetes.config: "true"
@@ -44,7 +44,7 @@ data:
 
     ncloud:
       key-tag: 952e459bd6fa74b14d2167c70d530eb7ad05fb356aef381575b239965f2c68c6
-    
+
     app-version:
       Test: 1234567890abcdefghijklmnopqrstuv
       SpassAndroid: 1234567890abcdefghijklmnopqrstuv

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-spass
-  namespace: spass
+  namespace: default
   labels:
     app.kubernetes.io/name: api-spass
 spec:
