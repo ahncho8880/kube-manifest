@@ -1,10 +1,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: api-sample
-  namespace: mossp
+  name: api-spass
+  namespace: spass
   labels:
-    app.kubernetes.io/name: api-sample
+    app.kubernetes.io/name: api-spass
 rules:
   - verbs:
       - get

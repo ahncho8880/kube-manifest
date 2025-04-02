@@ -1,0 +1,81 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: spass-config
+  namespace: spass
+  labels:
+    app.kubernetes.io/name: api-spass
+    spring.cloud.kubernetes.config: "true"
+data:
+  application.yaml: |-
+    server:
+      port: 8080
+      name: api-spass
+
+    app:
+      server-url: https://dev-apispass.mossp.co.kr
+
+    external:
+      api:
+        base-url: https://dev-apiid.mossp.co.kr
+
+    spring:
+      profiles:
+        active: dev
+      application:
+        name: api
+      jwt:
+        secret: 7f238b10392bd333a31519f355cd7d2568fd97eb6cf9a584f1332591674b395dc5a7f6fd268915b82d0b2891f16691c3cfc72d5b8b73c1b6adf9a3ab85b6c209
+        access-token:
+          expiration: 900000   # 액세스 토큰 만료 시간 (15m)
+        refresh-token:
+          expiration: 7200000  # 리프레시 토큰 만료 시간 (2h)
+      r2dbc:
+        url: r2dbc:mysql://db-2vtm31-kr1.vpc-cdb.gov-ntruss.com:3306/db_m_mb?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
+        UserName: mossp_api
+        Password: mega!202501
+
+      redis: 
+        address: redis://redisc-2vtm04-kr.vpc-cdb.gov-ntruss.com:6379
+        username: admin_cr
+        password: megazone!2024
+        connectionPoolSize: 64
+        connectionMinimumIdleSize: 10
+
+    ncloud:
+      key-tag: 952e459bd6fa74b14d2167c70d530eb7ad05fb356aef381575b239965f2c68c6
+    
+    app-version:
+      Test: 1234567890abcdefghijklmnopqrstuv
+      SpassAndroid: 1234567890abcdefghijklmnopqrstuv
+      SpassIphone: 56q8p0375f2em4k0s1csc4ef905h9fn4
+      myD3Android: dxm0q836n0e4yb75u2n0p82nv833o8v3
+
+    springdoc:
+      swagger-ui:
+        path: /swagger-ui
+
+    besu:
+      # endpoint: "https://dev-myd-bc.mossp.co.kr"
+      endpoint: ncpkms:v1:UIPbUwdxTU9LbwSBZhnmKyyf1VdQhpMIAhNY0+LuiCalsTA2tQs4vixBsUg/ucKgBZRVi+8WYEO6qQ==
+      # admin-key: "0x1e86960856f51a7399caef493eaf06edd8f88f8072d27b8bfa30a25afddb010a"
+      admin-key: ncpkms:v1:J4Fds79W0SeoPaOp3DZptq9z1OcnNQFIshrhGRW5j7AFuek6EO9QaXnHOE/eLje1GGp2YlQ45ChpxrAaIYbyOPxaAOPcxJdgFb9G3kNlBi0av4Cbee/V+Db9P8Q47Q==
+      account-keys:
+        - ncpkms:v1:J4Fds79W0SeoPaOp3DZptq9z1OcnNQFIshrhGRW5j7AFuek6EO9QaXnHOE/eLje1GGp2YlQ45ChpxrAaIYbyOPxaAOPcxJdgFb9G3kNlBi0av4Cbee/V+Db9P8Q47Q==
+        - ncpkms:v1:vw8go3buSVwmCswQ5KY33D5pTLC6MlbKjQgFjdV3QhRm0j4e/Qnnsg/S6fZoaxuhGhpcY9ueUbFYFunWv3e1v7eiUvj8LErT8zBaO1wF/3ipIG5uSWP56lrLIotPvw==
+        - ncpkms:v1:H3B5O4r8txSd6aimQusGGD4DPZJ54Qv3n9bQV7/nQ3/NCXKnMoYlrM05OJM+G9oEWuCvcDv9JDjWx59ePuz7DfrQ6l+804NjgVUuK7fz8kMrbOCfY3EKjzjt+BhNWg==
+        - ncpkms:v1:B0hR4selH3TVmRlG2K5F4qRvWoqIOH0MbFcuuzhaNqR489naUZNtcpQ3A+hhuy8k21lOoIvGtP3BvQzGFf0wMSCTHGB1HwrHD67mAz4MSaYRZ3ceCl06CN5Wh8iEwA==
+      # wallet-key: mWLE9vnStdfFRjD7PzIt/g9/LfEQNtmjJSUcunGHLBdRq3dpAaLPXmQqUYorbz9U
+      wallet-key: ncpkms:v1:7F1tnb9QGfZ7ADHamVTyhv9R6bvViUecin+uLRvL3KRWMaJv21q7dPNrJ1M+uCCgF8bPGCohYymrx40AYtPYJLXDSRTBJlTiyx3UBijdPaHOXqnrewQfEDA1eRM=
+      contract:
+        # did-manager: "0x61a376d7B9A02BDbca07fc9B0A789a051F4733F7"
+        did-manager: ncpkms:v1:htaRoa/m6zgMnoF2UaQ+W7c0NwAoZ7TEr+EJCfxplw0JoAvVIy4lPqccbXulrHeS7DfLUIardAT3hx8+bUUofQWjl64EDg==
+      # 스마트컨트랙터 추가 필요 
+      
+    logging:
+      level:
+        root: ERROR
+        com.snplab: DEBUG
+        
+      pattern:
+        console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr([${spring.application.name},%X{trace_id},%X{span_id}]) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m %n%wEx"

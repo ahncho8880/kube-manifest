@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-sample
-  namespace: mossp
+  name: api-spass
+  namespace: spass
   labels:
-    app.kubernetes.io/name: api-sample
+    app.kubernetes.io/name: api-spass
   annotations:
     boot.spring.io/actuator: http://:8081/actuator
     alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/readiness
-    alb.ingress.kubernetes.io/healthcheck-port: '30321'    
+    alb.ingress.kubernetes.io/healthcheck-port: '30421'    
 spec:
   type: NodePort
   ports:
@@ -16,12 +16,12 @@ spec:
       port: 8080
       protocol: TCP
       targetPort: 8080
-      nodePort: 30322
+      nodePort: 30422
     - name: actuator
       port: 8081
       protocol: TCP
       targetPort: 8081
-      nodePort: 30321     
+      nodePort: 30421     
   selector:
-    app.kubernetes.io/name: api-sample
+    app.kubernetes.io/name: api-spass
   sessionAffinity: None

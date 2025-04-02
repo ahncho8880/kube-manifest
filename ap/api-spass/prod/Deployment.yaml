@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 
-  namespace: mossp
+  name: api-spass
+  namespace: spass
   labels:
-    app.kubernetes.io/name: spass
+    app.kubernetes.io/name: api-spass
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
-      app.kubernetes.io/name: spass
+      app.kubernetes.io/name: api-spass
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: spass
+        app.kubernetes.io/name: api-spass
     spec:
-      serviceAccountName: spass
+      serviceAccountName: api-spass
       containers:
-        - name: spass
-          image: mossp-prod-container-registry.ncr.gov-ntruss.com/spass:83
+        - name: api-spass
+          image: mossp-prod-container-registry.ncr.gov-ntruss.com/api-spass:61
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -65,12 +65,12 @@ spec:
             failureThreshold: 10
           volumeMounts:
             - mountPath: /config
-              name: spring-config
+              name: spass-config
       nodeSelector:
-        role: mossp
+        role: spass
       volumes:
-        - name: spring-config
+        - name: spass-config
           configMap:
-            name: spass
+            name: spass-config
       imagePullSecrets:
         - name: cr-credential
